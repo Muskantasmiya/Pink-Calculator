@@ -1,32 +1,43 @@
-// JavaScript code for managing the todo list
+document.querySelector('#push').onclick = function () {
+    if (document.querySelector('#newtask input').value.length == 0) {
+        alert("Please Enter a Task");
+    } else {
+        // Create a new task container
+        var taskContainer = document.createElement('div');
+        taskContainer.classList.add('task');
 
-function addTask() {
-    // Get the task input value
-    var taskInput = document.getElementById("taskInput");
-    var taskText = taskInput.value;
+        // Create checkbox
+        var checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
 
-    if (taskText.trim() !== "") {
-        // Create a new task element
-        var taskElement = document.createElement("div");
-        taskElement.className = "task";
-        taskElement.innerHTML = taskText;
+        // Create span for task text
+        var taskText = document.createElement('span');
+        taskText.textContent = document.querySelector('#newtask input').value;
+        taskText.classList.add('task-text');
 
-        // Create a delete button for the task
-        var deleteButton = document.createElement("button");
-        deleteButton.innerHTML = "Delete";
+        // Create delete button
+        var deleteButton = document.createElement('button');
+        deleteButton.innerHTML = '<i class="far fa-trash-alt"></i>';
+        deleteButton.classList.add('delete');
+
+        // Append elements to task container
+        taskContainer.appendChild(checkbox);
+        taskContainer.appendChild(taskText);
+        taskContainer.appendChild(deleteButton);
+
+        // Append the task container to the tasks div
+        document.querySelector('#tasks').appendChild(taskContainer);
+
+        // Set up event listeners for the delete button and checkbox
         deleteButton.onclick = function () {
-            // Remove the task when the delete button is clicked
-            taskElement.remove();
+            taskContainer.remove();
         };
 
-        // Append the delete button to the task element
-        taskElement.appendChild(deleteButton);
+        checkbox.onclick = function () {
+            taskText.classList.toggle('completed');
+        };
 
-        // Append the task element to the tasks container
-        var tasksContainer = document.getElementById("tasks-container");
-        tasksContainer.appendChild(taskElement);
-
-        // Clear the input field
-        taskInput.value = "";
+        // Clear the input
+        document.querySelector("#newtask input").value = "";
     }
-}
+};
